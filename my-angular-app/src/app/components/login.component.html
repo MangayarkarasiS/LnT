@@ -1,0 +1,30 @@
+
+    <h2>Login</h2>
+    <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm" novalidate>
+      <label>
+        Username:
+        <input name="username" [(ngModel)]="username" required #usernameCtrl="ngModel" />
+      </label>
+      <div *ngIf="loginForm.submitted && usernameCtrl.invalid" style="color:red">Username is required.</div>
+      <br />
+      <label>
+        Password:
+        <input type="password" name="password" [(ngModel)]="password" required #passwordCtrl="ngModel" minlength="4" />
+      </label>
+      <div *ngIf="loginForm.submitted && passwordCtrl.invalid" style="color:red">
+        <div *ngIf="passwordCtrl.errors?.['required']">Password is required.</div>
+        <div *ngIf="passwordCtrl.errors?.['minlength']">Password must be at least 4 characters.</div>
+      </div>
+      <br />
+      <label>
+        Role:
+        <select name="role" [(ngModel)]="role" required #roleCtrl="ngModel">
+          <option value="admin">Admin</option>
+          <option value="user">User</option>
+        </select>
+      </label>
+      <div *ngIf="loginForm.submitted && roleCtrl.invalid" style="color:red">Role is required.</div>
+      <br />
+      <button type="submit">Login</button>
+    </form>
+    <div *ngIf="errorMessage" style="color:red">{{ errorMessage }}</div>
