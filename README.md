@@ -1,0 +1,1 @@
+This is to demonstrate auth guard, role guard after login, it admin logs in goes to product view page, if user log in goes to product add page, if not redoirects to login page, can activate, candeactivate is enabled
