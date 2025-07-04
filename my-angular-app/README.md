@@ -1,3 +1,64 @@
+echo {} > db.json
+
+db.json:
+----------------
+{
+  "Stud": [
+    {
+      "studId": 101,
+      "studName": "Vaishnavi",
+      "studTotalMarks": 475,
+      "studDob": "new Date(5,5,2020)",
+      "studGender": "Female",
+      "id": "6820"
+    },
+    {
+      "studId": 102,
+      "studName": "Nitin kalokar",
+      "studTotalMarks": 400,
+      "studDob": "new Date(5,7,2020)",
+      "studGender": "Female",
+      "id": "bc33"
+    },
+    {
+      "studId": 103,
+      "studName": "PattuBai",
+      "studTotalMarks": 375,
+      "studDob": "new Date(6,5,2020)",
+      "studGender": "Male",
+      "id": "8f3e"
+    },
+    {
+      "studId": 104,
+      "studName": "Vaish patel",
+      "studTotalMarks": 500,
+      "studDob": "new Date(5,5,2020)",
+      "studGender": "Female",
+      "id": "5218"
+    },
+    {
+      "id": "b3a9",
+      "studId": 0,
+      "studName": "Valabai patel",
+      "studTotalMarks": "900",
+      "studDob": "2025-07-03",
+      "studGender": "Male"
+    }
+  ]
+}
+
+
+
+
+npx json-server db.json
+
+ng g s services/studserv
+
+ng g c student/httpstudlist
+
+StudservService.ts:
+-----------------------
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Stud } from '../stud.model';
@@ -35,7 +96,7 @@ export class StudservService {
 }
 --------------------------------------------------
 
-shttpstudlist.ts:
+httpstudlist.ts:
 --------------------
 import { Component } from '@angular/core';
 import { Stud } from '../../stud.model';
@@ -244,55 +305,6 @@ httpaddstud.html:
 </div>
 
 ------------------------------------------------------------
-db.json:
-----------------
-{
-  "Stud": [
-    {
-      "studId": 101,
-      "studName": "Vaishnavi",
-      "studTotalMarks": 475,
-      "studDob": "new Date(5,5,2020)",
-      "studGender": "Female",
-      "id": "6820"
-    },
-    {
-      "studId": 102,
-      "studName": "Nitin kalokar",
-      "studTotalMarks": 400,
-      "studDob": "new Date(5,7,2020)",
-      "studGender": "Female",
-      "id": "bc33"
-    },
-    {
-      "studId": 103,
-      "studName": "PattuBai",
-      "studTotalMarks": 375,
-      "studDob": "new Date(6,5,2020)",
-      "studGender": "Male",
-      "id": "8f3e"
-    },
-    {
-      "studId": 104,
-      "studName": "Vaish patel",
-      "studTotalMarks": 500,
-      "studDob": "new Date(5,5,2020)",
-      "studGender": "Female",
-      "id": "5218"
-    },
-    {
-      "id": "b3a9",
-      "studId": 0,
-      "studName": "Valabai patel",
-      "studTotalMarks": "900",
-      "studDob": "2025-07-03",
-      "studGender": "Male"
-    }
-  ]
-}
-
-
-
 
 # MyAngularApp
 
