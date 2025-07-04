@@ -1,3 +1,151 @@
+studentedithttpcomponent.ts:
+-----------------------------
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { StudentHttpService } from 'src/app/student/student-http.service';
+import { Studt } from 'src/app/studn';
+
+@Component({
+  selector: 'app-student-edit-http',
+  templateUrl: './student-edit-http.component.html',
+  styleUrls: ['./student-edit-http.component.css']
+})
+export class StudentEditHttpComponent implements OnInit {
+  
+  fetchedStudent :Studt={
+    id:0,
+    studName:'',
+    studTotalMarks:0,
+    studDob:new Date(),
+    studGender:''
+    }   
+  
+  myReactiveForm:FormGroup=new FormGroup({
+    rsId:new FormControl(),
+    rsName:new FormControl('',[Validators.required,this.onlyText]),
+    rsMarks:new FormControl('',Validators.required),
+    rsDob:new FormControl('',Validators.required),
+    rsGender:new FormControl()
+  });
+  constructor(private router:Router, 
+              private activatedRoute:ActivatedRoute,
+              private studentHttpService:StudentHttpService ) { }
+
+  ngOnInit(): void {
+    let studId=this.activatedRoute.snapshot.paramMap.get('sid');
+    if(studId!=null)
+    this.studentHttpService.getAStudent(studId).subscribe({
+      next:(response)=>{
+        this.fetchedStudent=response;
+      this.myReactiveForm.setValue({
+        rsId:this.fetchedStudent.id,
+        rsName:this.fetchedStudent.studName,
+        rsMarks:this.fetchedStudent.studTotalMarks,
+        rsDob:this.fetchedStudent.studDob,
+        rsGender:this.fetchedStudent.studGender
+      })},
+      error:(err)=>console.log(err)
+ })    
+
+  }
+  editStudent(){
+   console.log(this.myReactiveForm);
+   let updatStudent:Studt={
+    id:this.myReactiveForm.value.rsId,
+    studName:this.myReactiveForm.value.rsName,
+    studTotalMarks:this.myReactiveForm.value.rsMarks,
+    studDob:this.myReactiveForm.value.rsDob,
+    studGender:this.myReactiveForm.value.rsGender
+  }
+//send this student object to backend through the service to get added to databse
+  this.studentHttpService.updateStudent(updatStudent).subscribe({
+    next:(response)=>{this.router.navigate(['studentlist']),
+                      console.log(response)},
+    error:(err)=>{console.log(err)}
+    
+  })
+  }
+}
+
+
+-----------------------------------
+studentedithttpcomponent.html:
+--------------------------------
+
+<div class="container">
+    <form [formGroup]="myReactiveForm" (ngSubmit)="editStudent()">
+        <div class="card">
+            <div class="card-header bg-warning text-white">
+                <h3>Edit Student</h3>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="sId" class="form-label">Student Id</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="sId" 
+                           formControlName="rsId"    
+                           [readonly]="true"                                               
+                           >                          
+                          
+                </div>
+                <div class="form-group">
+                    <label for="sName" class="form-label">Student Name</label>
+                    <div class="text-danger" *ngIf="myReactiveForm.get('rsName')?.errors?.['required']">
+                        Student Name is required
+                      </div>
+                      <div class="text-danger" *ngIf="myReactiveForm.get('rsName')?.errors?.['minlength']">
+                        Student Name should be of minium 2 characters
+                      </div>
+                      <div class="text-danger" *ngIf="myReactiveForm.get('rsName')?.errors?.['invalidText']">
+                        Student Name should have only characters and white spaces
+                      </div>
+                    <input type="text" 
+                           class="form-control" 
+                           id="sName" 
+                           formControlName="rsName"> 
+                                               
+                                
+                           
+                </div>
+                <div class="form-group">
+                    <label for="sMarks" class="form-label">Student Marks</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="sMarks" 
+                           formControlName="rsMarks" 
+                           >
+                          
+                </div>
+                <div class="form-group">
+                    <label for="sDob" class="form-label">Student DOB</label>
+                    <input type="date" class="form-control" id="sDob" formControlName="rsDob" >
+                   
+                </div>
+                <div class="form-check">
+                    <input formControlName="rsGender"   class="form-check-input" type="radio"  id="sGender" value="Male">
+                    <label class="form-check-label" for="sGender">
+                      Male
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input formControlName="rsGender" value="Female"  class="form-check-input" type="radio"  id="sGender">
+                    <label class="form-check-label" for="sGender">
+                      Female
+                    </label>
+                  </div>
+            </div>
+            <div class="card-footer bg-warning text-white">
+                <button type="submit" class="btn btn-sucess" >Edit Student</button>
+                <button type="button" class="btn btn-sucess" (click)="addanotherValidator()">Add Validator</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+--------------------------------------
+
 echo {} > db.json
 
 db.json:
