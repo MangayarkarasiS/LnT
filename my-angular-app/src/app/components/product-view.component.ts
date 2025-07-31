@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-product-view',
   standalone: true,
+  
   template: `
     <h2>Product List</h2>
     <a routerLink="/products/add">Add Product</a> |

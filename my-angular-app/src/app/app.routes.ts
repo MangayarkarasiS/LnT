@@ -15,3 +15,4 @@ export const routes: Routes = [
   { path: 'products/delete', component: ProductDeleteComponent, canActivate: [authGuard, roleGuard], data: { roles: ['user'] } },
   { path: '', redirectTo: '/products', pathMatch: 'full' }
 ];
+ 
